@@ -37,7 +37,7 @@ if __name__ == "__main__":
     b_length = numpy.linalg.norm(b)
 
     num_matvecss = [50, 200, 400, 900]
-    reps = 3
+    reps = 5
     from krylov_basis import arnoldi
 
     ortho_mgs = trial_results(num_matvecss)
@@ -98,14 +98,14 @@ if __name__ == "__main__":
 
     names = {
         "ortho_mgs": "MGS",
-        "ortho_trunc": "Trunc.",
+        "ortho_trunc": "IOP",
         "ortho_cgs": "CGS",
         "ortho_cgs_projreortho": "CGS w/ reo.",
         "ortho_cgs_reortho": "CGS w/ proj.",
     }
 
     data = json.load(open(f"../outputs/cpu_benchmark_{matrix}.json"))
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 3), dpi=200)
     width = 1/6
     multiplier = 0
     colors = plt.color_sequences["tab10"]
@@ -125,4 +125,31 @@ if __name__ == "__main__":
     ax.set_yscale("log")
     fig.tight_layout()
     fig.savefig(f"../outputs/cpu_benchmark_{matrix}.pdf")
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(6, 3), dpi=200)
+    width = 1 / 5
+    multiplier = 0
+    colors = plt.color_sequences["tab10"]
+    for n in num_matvecss:
+        m2 = 0
+        base = np.median(data["ortho_mgs"][str(n)]["ts"])
+        for method in data.keys():
+            if method == "ortho_mgs":
+                continue
+            offset = width * multiplier
+            rects = ax.bar(offset, np.median(data[method][str(n)]["ts"] / base), width,
+                           label=names[method] if n == 50 else "",
+                           color=colors[m2 + 1])
+            # ax.bar_label(rects, padding=3)
+            multiplier += 1
+            m2 += 1
+        multiplier += 1
+    ax.set_ylabel('Runtime relative to MGS')
+    ax.set_xticks(np.arange(len(num_matvecss)) + 0.5 - width, num_matvecss)
+    ax.legend(loc='upper right', ncols=2)
+    ax.set_xlabel("Number of Arnoldi steps")
+    # ax.set_yscale("log")
+    fig.tight_layout()
+    fig.savefig(f"../outputs/cpu_benchmark_grcar_rel.pdf")
     plt.show()

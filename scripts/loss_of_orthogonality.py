@@ -103,12 +103,12 @@ if __name__ == "__main__":
         numpy.savez(f, ortho_mgs=ortho_mgs, ortho_trunc=ortho_trunc, ortho_cgs=ortho_cgs,
                     ortho_cgs_projreortho=ortho_cgs_projreortho, ortho_cgs_reortho=ortho_cgs_reortho)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 3), dpi=200)
     ax.plot([i for i in range(1, len(ortho_mgs) + 1)], ortho_mgs, label="MGS")
-    ax.plot([i for i in range(1, len(ortho_trunc) + 1)], ortho_trunc, label="Truncated")
+    ax.plot([i for i in range(1, len(ortho_trunc) + 1)], ortho_trunc, label="IOP")
     ax.plot([i for i in range(1, len(ortho_cgs) + 1)], ortho_cgs, label="CGS")
-    ax.plot([i for i in range(1, len(ortho_cgs_projreortho) + 1)], ortho_cgs_projreortho, label="CGSproj")
-    ax.plot([i for i in range(1, len(ortho_cgs_projreortho) + 1)], ortho_cgs_reortho, label="CGSreo")
+    ax.plot([i for i in range(1, len(ortho_cgs_projreortho) + 1)], ortho_cgs_projreortho, label="CGS w/ proj.")
+    ax.plot([i for i in range(1, len(ortho_cgs_projreortho) + 1)], ortho_cgs_reortho, label="CGS w/ reo.")
     ax.set_yscale("log")
     ax.set_xlabel("Number of Arnoldi steps")
     ax.set_ylabel("Loss of orthogonality")
