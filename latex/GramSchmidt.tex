@@ -135,7 +135,7 @@ For demonstrating the behavior of the different orthogonalization procedures, we
 The matrix has a Hessenberg structure with $-1$ on the subdiagonal and $1$ on the diagonal and the first three superdiagonals.
 In the Numerical Linear Algebra lecture by Prof.\ Liesen at TU Berlin, this matrix is used to show that CGR and MGR might lose orthogonality also for well-conditioned matrices.
 We conduct the experiment using Numpy and Scipy on a laptop CPU for a large matrix size of $n=5,000$.
-The code can be found at \url{github.com/marthakn/ArnoldiOrthogonalization}.
+The code can be found at \url{github.com/resting-dove/GramSchmidtVariants}.
 
 First, we look at the loss of orthogonality of the Arnoldi basis vectors depending on the orthogonalization procedure.
 This is measured by $\norm{I_m - Q_m^T Q_m}_F$ which would ideally be zero.
